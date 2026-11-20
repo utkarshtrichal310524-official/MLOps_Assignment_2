@@ -140,8 +140,11 @@ def train_and_log(model, model_name, params, X_train, X_test, y_train, y_test):
         log_classification_report(y_test, y_pred, model_name)
 
         # Log the trained model itself
-        mlflow.sklearn.log_model(model, artifact_path="model")
-
+        mlflow.sklearn.log_model(
+            model,
+            name="model",
+            skops_trusted_types=["sklearn.tree._tree.Tree"]
+        )
         print(f"[{model_name}] accuracy={acc:.4f} precision={prec:.4f} "
               f"recall={rec:.4f} f1={f1:.4f} (run_id={run.info.run_id})")
 
